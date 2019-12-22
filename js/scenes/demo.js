@@ -14,15 +14,15 @@ class Demo extends Phaser.Scene {
     // Maze exit
     mymaze.gateway(mapWidth - 1, mapHeight - 3);
     // Generates the maze map
-    let mazeMap = mymaze.map();
+    let mazeMap = mymaze.cells();
     // Center the map on screen
     let x = Math.round((this.game.config.width - tilesize * mapWidth) / 2);
     let y = Math.round((this.game.config.height - tilesize * mapHeight) / 2);
     // Display the maze map
-    this.displayMap(x, y, mazeMap, tilesize);
+    this.renderCells(x, y, mazeMap, tilesize);
   }
 
-  displayMap(x0, y0, maze, tilesize) {
+  renderCells(x0, y0, maze, tilesize) {
     let x = x0;
     let y = y0;
     let t = this;
