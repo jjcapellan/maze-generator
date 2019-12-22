@@ -14,8 +14,8 @@ class Maze {
     /**
      * Add a new gateway to the gates array. The gateway should be positioned
      * in an edge of the maze.
-     * @param {int} x X position of the gateway.
-     * @param {int} y Y position of the gateway.
+     * @param {integer} x X position of the gateway.
+     * @param {integer} y Y position of the gateway.
      * @memberof Maze
      */
     gateway(x,y){
@@ -51,21 +51,25 @@ class Maze {
             return row;
         }
 
+        function cell(x,y){
+            return maze[y][x];
+        }
+
         function getNonVisited(x, y) {
             let freeOnes = [];
-            let left = (x - 1 >= 0) ? maze[y][x - 1][4] : null;
+            let left = (x - 1 >= 0) ? cell(x-1,y)[4] : null;
             if (left) {
                 freeOnes.push({ x: x - 1, y: y, to: 'left' });
             }
-            let up = (y - 1 >= 0) ? maze[y - 1][x][4] : null;
+            let up = (y - 1 >= 0) ? cell(x,y-1)[4] : null;
             if (up) {
                 freeOnes.push({ x: x, y: y - 1, to: 'up' });
             }
-            let down = (y + 1 < t.height) ? maze[y + 1][x][4] : null;
+            let down = (y + 1 < t.height) ? cell(x,y+1)[4] : null;
             if (down) {
                 freeOnes.push({ x: x, y: y + 1, to: 'down' });
             }
-            let right = (x + 1 < t.width) ? maze[y][x + 1][4] : null;
+            let right = (x + 1 < t.width) ? cell(x+1,y)[4] : null;
             if (right) {
                 freeOnes.push({ x: x + 1, y: y, to: 'right' });
             }
@@ -80,32 +84,32 @@ class Maze {
             switch (dir) {
                 case t.direction.right:
                     // Deletes current right wall
-                    maze[y][x][3] = 1;
+                    cell(x,y)[3] = 1;
                     // New current
                     cursor = [x + 1, y];
                     // Deletes left wall of new current
-                    maze[y][x + 1][0] = 1;
+                    cell(x+1,y)[0] = 1;
                     break;
                 case t.direction.left:
-                    maze[y][x][0] = 1;
+                    cell(x,y)[0] = 1;
                     cursor = [x - 1, y];
-                    maze[y][x - 1][3] = 1;
+                    cell(x-1,y)[3] = 1;
                     break;
                 case t.direction.up:
-                    maze[y][x][1] = 1;
+                    cell(x,y)[1] = 1;
                     cursor = [x, y - 1];
-                    maze[y - 1][x][2] = 1;
+                    cell(x,y-1)[2] = 1;
                     break;
                 case t.direction.down:
-                    maze[y][x][2] = 1;
+                    cell(x,y)[2] = 1;
                     cursor = [x, y + 1];
-                    maze[y + 1][x][1] = 1;
+                    cell(x,y+1)[1] = 1;
                     break;
                 default:
                     break;
             }
             // Mark it as visited
-            maze[cursor[1]][cursor[0]][4] = 0;
+            cell(cursor[0],cursor[1])[4] = 0;
             // Adds this cell to stack
             cellsStack.push(cursor);
         }
@@ -114,7 +118,7 @@ class Maze {
             cursor = [ Math.floor(Math.random()*(t.width-1)+1), Math.floor(Math.random()*(t.height-1)+1)];
             console.log([ Math.floor(Math.random()*(t.width-1)), Math.floor(Math.random()*(t.height-1))]);
             // Marks first cell as visited
-            maze[cursor[1]][cursor[0]][4] = 0;
+            cell(cursor[0],cursor[1])[4] = 0;
             // First cell added to the stack
             cellsStack.push(cursor);
     
@@ -134,7 +138,7 @@ class Maze {
         }        
 
         function setGateway(x,y){
-            let start = maze[y][x];
+            let start = cell(x,y);
             if(x == 0){
                 start[0] = 1;
             } else if(y == 0){
