@@ -159,7 +159,6 @@ class Maze {
 
         function generate() {
             cursor = [Math.floor(Math.random() * (t.width - 1) + 1), Math.floor(Math.random() * (t.height - 1) + 1)];
-            console.log([Math.floor(Math.random() * (t.width - 1)), Math.floor(Math.random() * (t.height - 1))]);
             // Marks first cell as visited
             cell(cursor[0], cursor[1])[4] = 0;
             // First cell added to the stack
