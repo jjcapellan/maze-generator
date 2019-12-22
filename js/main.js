@@ -9,7 +9,7 @@ function runGame() {
       height: 1050
     },
     backgroundColor: 0x000000,
-    scene: [LoadScreen, Demo]
+    scene: [LoadScreen, Demo, Gui]
   };
 
   var game = new Phaser.Game(config);

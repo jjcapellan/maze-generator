@@ -7,7 +7,8 @@ class LoadScreen extends Phaser.Scene {
   
       this.load.on('complete',function(){
           console.log('load complete');
-          this.scene.start('demo');
+          this.scene.launch('demo',{tilesize:50});
+          this.scene.start('gui');
       }, this);
   
       // Images atlas

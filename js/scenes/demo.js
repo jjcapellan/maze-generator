@@ -3,10 +3,10 @@ class Demo extends Phaser.Scene {
     super('demo');
   }
 
-  create() {
-    const tilesize = 50;
-    const mapHeight = Math.floor(this.game.config.height / tilesize);
-    const mapWidth = Math.floor(this.game.config.width / tilesize);
+  create(data) {
+    const TILESIZE = data.tilesize;
+    const mapHeight = Math.floor(this.game.config.height / TILESIZE);
+    const mapWidth = Math.floor(this.game.config.width / TILESIZE);
     // New Maze object
     const mymaze = new Maze(mapWidth, mapHeight);
     // Maze start
@@ -16,10 +16,10 @@ class Demo extends Phaser.Scene {
     // Generates the maze map
     let mazeMap = mymaze.cells();
     // Center the map on screen
-    let x = Math.round((this.game.config.width - tilesize * mapWidth) / 2);
-    let y = Math.round((this.game.config.height - tilesize * mapHeight) / 2);
+    let x = Math.round((this.game.config.width - TILESIZE * mapWidth) / 2);
+    let y = Math.round((this.game.config.height - TILESIZE * mapHeight) / 2);
     // Display the maze map
-    this.renderCells(x, y, mazeMap, tilesize);
+    this.renderCells(x, y, mazeMap, TILESIZE);
   }
 
   renderCells(x0, y0, maze, tilesize) {
@@ -39,6 +39,7 @@ class Demo extends Phaser.Scene {
         if (frame != '0000') {
           let cell = t.add.image(x, y, 'atl_maze', frame);
           cell.setOrigin(0, 0);
+          cell.setDisplaySize(tilesize, tilesize);
         }
         x += tilesize;
       }
