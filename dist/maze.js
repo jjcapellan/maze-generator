@@ -55,17 +55,23 @@ class Maze {
         this.gates.push([x, y]);
     }
 
+    /**
+     * Returns an array of tiles representing the maze. Each cell as 3x3 tiles.
+     * Each tile is a single value 0 or 1 (colliding or not colliding).
+     * The tiles are grouped by rows, and the rows are contained in the maze array.
+     * @returns {rows[]} Contains the mace cells
+     * @memberof Maze
+     */
     tiles() {
         return this.cellsTotiles(this.cells());
     }
 
 
     /**
-     * Returns an array representing the maze. The maze is composed by cells.
-     * the cell array containts the state of the four walls (0:closed, 1:opened),
-     * and visited state. Example: [1,0,0,1,1] // [left opened, up closed, down closed, right opened, visited]
-     * the cells are grouped by rows, and the rows are contained in the maze array.
-     *      *
+     * Returns an array of cells representing the maze.
+     * Each cell is an array containing the state of the four walls (0:closed, 1:opened). 
+     * Example: [1,0,0,1] // [left opened, up closed, down closed, right opened]
+     * The cells are grouped by rows, and the rows are contained in the maze array. 
      * @returns {rows[]} Contains the mace cells
      * @memberof Maze
      */
@@ -187,10 +193,15 @@ class Maze {
             }
         }
 
-        generate();
+        function trimCells(){
+            maze.forEach((row)=>{
+                row.forEach((c)=>{c.pop();});
+            });
+        }
 
+        generate();
+        trimCells();
         t.gates.forEach((v, i) => { setGateway(v[0], v[1]); });
-        window.maze = maze;
 
         return maze;
     }
