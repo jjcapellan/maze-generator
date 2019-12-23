@@ -18,25 +18,25 @@ class Maze {
      * @returns {row[]} Array of 0 and 1 values. 1: pass; 2: not pass 
      * @memberof Maze
      */
-    cellsTotiles(cellsMap) {
-        let tileMap = new Array(this.height * 3);
-        for (let i = 0; i < this.height * 3; i++) {
-            tileMap[i] = new Array(this.width * 3).fill(0);
+    cellsToTiles(cellsMap) {
+        let tileMap = new Array(this.height * 2 + 1);
+        for (let i = 0; i < tileMap.length; i++) {
+            tileMap[i] = new Array(this.width * 2 + 1).fill(0);
         }
         cellsMap.forEach((row, i) => {
-            let y = i * 3;
+            let y = (i + 1) * 2 - 1;
             row.forEach((cel, c) => {
-                let x = c * 3;
+                let x = (c + 1)* 2 - 1;
                 // Center of 3x3 allways opened
-                tileMap[y + 1][x + 1] = 1;
+                tileMap[y][x] = 1;
                 // Up tile
-                tileMap[y][x + 1] = cel[1];
+                tileMap[y-1][x] = cel[1];
                 // Down tile
-                tileMap[y + 2][x + 1] = cel[2];
+                tileMap[y + 1][x] = cel[2];
                 // Left tile
-                tileMap[y + 1][x] = cel[0];
+                tileMap[y][x-1] = cel[0];
                 // Right tile
-                tileMap[y + 1][x + 2] = cel[3];
+                tileMap[y][x + 1] = cel[3];
                 // Corner of 3x3 are allways 0
             });
         });
@@ -63,7 +63,7 @@ class Maze {
      * @memberof Maze
      */
     tiles() {
-        return this.cellsTotiles(this.cells());
+        return this.cellsToTiles(this.cells());
     }
 
 
