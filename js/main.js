@@ -8,7 +8,7 @@ function runGame() {
       width: 1680,
       height: 1050
     },
-    backgroundColor: 0x000000,
+    backgroundColor: 0xdb9018,
     scene: [LoadScreen, Demo, Gui]
   };
 

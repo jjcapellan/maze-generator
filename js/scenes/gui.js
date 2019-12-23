@@ -4,7 +4,7 @@ class Gui extends Phaser.Scene {
     }
 
     create() {
-        let params = { tilesize: 50 };
+        let params = { tilesize: 30 };
         const gui = new dat.GUI({ with: 400 });
         const datGui = gui.add(params, 'tilesize', 8, 100).step(2);
 
