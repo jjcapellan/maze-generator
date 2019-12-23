@@ -1,6 +1,11 @@
-/*
-* Class to generate an array of cells or tiles which represents a maze.
-*/
+/**
+ * Class to generate mazes using a non recursive backtrack algorithm.
+ *
+ * @link   https://github.com/jjcapellan/maze-generator
+ * @author Juan José Capellán
+ * @license [MIT](https://raw.githubusercontent.com/jjcapellan/maze-generator/master/LICENSE)
+ * 
+**/
 
 class Maze {
     constructor(columns, rows) {
@@ -12,10 +17,10 @@ class Maze {
 
 
     /**
-     * Converts cells array format. The new format defines each cell as 3x3 tiles.
-     * This array only has zeros and ones. 1: allow pass 2: deny pass.
+     * Converts cells array format to a 2d array.
+     * This array only has zeros and ones. 0: wall 1: path.
      * @param {row[]} cellsMap 
-     * @returns {row[]} Array of 0 and 1 values. 1: pass; 2: not pass 
+     * @returns {row[]} 
      * @memberof Maze
      */
     cellsToTiles(cellsMap) {
@@ -45,7 +50,7 @@ class Maze {
 
 
     /**
-     * Add a new gateway to the gates array. The gateway should be positioned
+     * Adds a new gateway to the gates array. The gateway should be positioned
      * in an edge of the maze.
      * @param {integer} x X position of the gateway.
      * @param {integer} y Y position of the gateway.
@@ -56,8 +61,8 @@ class Maze {
     }
 
     /**
-     * Returns an array of tiles representing the maze. Each cell as 3x3 tiles.
-     * Each tile is a single value 0 or 1 (colliding or not colliding).
+     * Returns 2d array representing the maze.
+     * Each element is a single value 0 or 1 (wall or path).
      * The tiles are grouped by rows, and the rows are contained in the maze array.
      * @returns {rows[]} Contains the mace cells
      * @memberof Maze

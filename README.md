@@ -58,7 +58,7 @@ Each time we call **Maze.cells()** it returns a new random maze.
 ### Tiles array
 ![cell](img1.png "cell")  
 
-The above image is a cell of 3x3 tiles.  
+It is a 2d array. The above image is a cell of 3x3 tiles.  
 Each tile is a single value 0 or 1. The tiles are grouped by rows.  
 In this case the method **Maze.tiles()** returns:  
 ```
@@ -67,8 +67,7 @@ In this case the method **Maze.tiles()** returns:
   [1,1,0],
   [0,0,0]
 ]
-```  
-The tiles array have 3X more elements than the cells array.  
+```    
 
 For a maze of 10x10 cells:
 ```javascript
