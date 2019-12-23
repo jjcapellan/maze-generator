@@ -16,22 +16,20 @@ class Demo extends Phaser.Scene {
     // Maze exit
     mymaze.gateway(mapWidth - 1, mapHeight - 3);
     // Generates the maze map
-    let mazeMap = mymaze.tiles();
+    const mazeMap = mymaze.tiles();
     // Center the map on screen
-    let x = Math.round((this.game.config.width - TILESIZE * hTiles) / 2);
-    let y = Math.round((this.game.config.height - TILESIZE * vTiles) / 2);
+    const x = Math.round((this.game.config.width - TILESIZE * hTiles) / 2);
+    const y = Math.round((this.game.config.height - TILESIZE * vTiles) / 2);
     // Display the maze map
     this.renderTiles(x, y, mazeMap, TILESIZE);
   }
 
-  swapZeros(array2d){
-    let arr = [...array2d];
+  swapZeros(arr){
     arr.forEach((row,i) => {
       row.forEach((v,i,a)=>{
         a[i] = a[i] ? 0 : 1;
       });      
     });
-    return arr;
   }
   
 
@@ -46,8 +44,8 @@ class Demo extends Phaser.Scene {
     wallsLayer.setDisplaySize(width,height);
 
     // Floor 
-    const floorArray = this.swapZeros(maze); // swaps 0 - 1
-    let map = this.make.tilemap({ data: floorArray, tileWidth: 50, tileHeight: 50 });
+    this.swapZeros(maze); // swaps 0 - 1
+    let map = this.make.tilemap({ data: maze, tileWidth: 50, tileHeight: 50 });
     let floorTile = map.addTilesetImage('floor');
     let floorLayer = map.createStaticLayer(0, floorTile, x, y);
     floorLayer.setDisplaySize(width, height);    
@@ -62,5 +60,5 @@ class Demo extends Phaser.Scene {
     // Move walls to front
     wallsLayer.setDepth(rt.depth + 1);
   }
-  
+
 }
