@@ -14,6 +14,115 @@ class Maze {
         this.gates = [];
         this.direction = { left: 'left', right: 'right', up: 'up', down: 'down' };
     }
+    
+
+    /**
+     * Generates the route between start and end points.
+     *
+     * @param {row[]} maze2d array 2d
+     * @param {integer} startX
+     * @param {integer} startY
+     * @param {integer} endX
+     * @param {integer} endY
+     * @returns {Array} Array of pairs x,y of the correct route
+     * @memberof Maze
+     */
+    getRoute(maze2d, startX, startY, endX, endY) {
+        const goal = [xToTile(endX), xToTile(endY)];
+        let route = [];
+        let t = this;
+        let visited = new Map();
+
+        // First route point
+        route.push([[xToTile(startX),xToTile(startY)], getActions(xToTile(startX),xToTile(startY))]);
+          // Mark point as visited
+        visited.set(startX+"-"+startY, true);
+
+        function cell(x, y) {
+            return maze2d[y][x];
+        }
+
+        function xToTile(x){
+            return x * 2 + 1;
+        }
+
+        function last() {
+            return route[route.length - 1][0];
+        }
+
+        function clean() {
+            route.forEach((v,i,arr) => {
+                v.pop();
+                arr[i] = arr[i].pop();
+            });
+        }
+
+        function getActions(x, y) {
+            let actions = [];
+            let left = (x - 1 >= 0) ? cell(x - 1, y) : null;
+            if (left && !visited.has((x-1)+"-"+y)) {
+                actions.push('left');
+            }
+            let up = (y - 1 >= 0) ? cell(x, y - 1) : null;
+            if (up && !visited.has(x+"-"+(y-1))) {
+                actions.push('up');
+            }
+            let down = (y + 1 < maze2d.length) ? cell(x, y + 1) : null;
+            if (down && !visited.has(x+"-"+(y+1))) {
+                actions.push('down');
+            }
+            let right = (x + 1 < maze2d[0].length) ? cell(x + 1, y) : null;
+            if (right && !visited.has((x+1)+"-"+y)) {
+                actions.push('right');
+            }
+            return actions;
+        }
+
+        function makeRoute() {
+            do {
+                if (last()[0] == goal[0] && last()[1] == goal[1]) {
+                    clean();
+                    return route;
+                }
+                if (route[route.length - 1][1].length > 0) {
+                    let dir = route[route.length - 1][1].pop();
+                    move(dir);
+                } else {
+                    route.pop();
+                }
+            } while (true);
+
+        }
+
+        function move(dir) {
+            let pos = last();
+            let x = pos[0];
+            let y = pos[1];
+
+            switch (dir) {
+                case 'right':
+                    x += 1;
+                    break;
+                case 'left':
+                    x -= 1;
+                    break;
+                case 'up':
+                    y -= 1;
+                    break;
+                case 'down':
+                    y += 1;
+                    break;
+                default:
+                    break;
+            }
+          
+            // Mark visited
+            visited.set(x+"-"+y, true);
+            route.push([[x, y], getActions(x, y)]);
+        }
+
+        return makeRoute();
+    }
 
 
     /**
@@ -31,15 +140,15 @@ class Maze {
         cellsMap.forEach((row, i) => {
             let y = (i + 1) * 2 - 1;
             row.forEach((cel, c) => {
-                let x = (c + 1)* 2 - 1;
+                let x = (c + 1) * 2 - 1;
                 // Center of 3x3 allways opened
                 tileMap[y][x] = 1;
                 // Up tile
-                tileMap[y-1][x] = cel[1];
+                tileMap[y - 1][x] = cel[1];
                 // Down tile
                 tileMap[y + 1][x] = cel[2];
                 // Left tile
-                tileMap[y][x-1] = cel[0];
+                tileMap[y][x - 1] = cel[0];
                 // Right tile
                 tileMap[y][x + 1] = cel[3];
                 // Corner of 3x3 are allways 0
@@ -197,9 +306,9 @@ class Maze {
             }
         }
 
-        function trimCells(){
-            maze.forEach((row)=>{
-                row.forEach((c)=>{c.pop();});
+        function trimCells() {
+            maze.forEach((row) => {
+                row.forEach((c) => { c.pop(); });
             });
         }
 

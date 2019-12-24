@@ -3,7 +3,7 @@ class Demo extends Phaser.Scene {
     super('demo');
   }
 
-  create(data) {
+  create(data) {    
     const TILESIZE = data.tilesize;
     const vTiles = Math.floor(((this.game.config.height / TILESIZE) - 1));
     const hTiles = Math.floor(((this.game.config.width / TILESIZE) - 1));
@@ -20,6 +20,8 @@ class Demo extends Phaser.Scene {
     // Center map on screen
     const x = Math.round((this.game.config.width - TILESIZE * hTiles) / 2);
     const y = Math.round((this.game.config.height - TILESIZE * vTiles) / 2);
+    // Gets Solution
+    this.solution = mymaze.getRoute(mazeMap,0,1,mapWidth - 1,mapHeight - 3);
     // Display the maze map
     this.renderTiles(x, y, mazeMap, TILESIZE);
   }
@@ -47,11 +49,11 @@ class Demo extends Phaser.Scene {
     this.swapZeros(maze); // swaps 0 - 1
     let map = this.make.tilemap({ data: maze, tileWidth: 50, tileHeight: 50 });
     let floorTile = map.addTilesetImage('floor');
-    let floorLayer = map.createStaticLayer(0, floorTile, x, y);
+    let floorLayer = map.createDynamicLayer(0, floorTile, x, y);
     floorLayer.setDisplaySize(width, height);
 
     // Shadows
-    const offset = 0.2 * tilesize; // 20% of tile
+    const offset = 0.2 * tilesize;
     let rt = this.add.renderTexture(x + offset, y + offset, width, height);
     rt.draw(wallsLayer, 0, 0);
     rt.setAlpha(0.4);
@@ -59,6 +61,16 @@ class Demo extends Phaser.Scene {
 
     // Move walls to front
     wallsLayer.setDepth(rt.depth + 1);
+
+    // Renders solution
+    this.renderSolution(map);
+  }
+
+  renderSolution(mazeMap){
+    let path = this.solution;
+    path.forEach((v) => {
+      mazeMap.getTileAt(v[0],v[1],true).tint = 0xffff00;
+    });
   }
 
 }

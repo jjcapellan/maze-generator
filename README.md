@@ -127,6 +127,9 @@ let map2 = maze.cells();
 
 ```
 
+### Route between two points
+The method **Maze.getRoute(maze2d, startX, startY, endX, endY)** returns an array with the coordinates of the route between start and end points.
+
 ## Dependencies
 The Maze class uses plain javascript and not needs other libraries.  
 For the demo was used the game framework [Phaser 3](https://phaser.io/) and the gui library [dat.GUI](https://github.com/dataarts/dat.gui).
